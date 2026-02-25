@@ -1,17 +1,26 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Google Sheet Reverse List with Auto-Refresh</title>
+  <title>Google Form Responses</title>
+  <style>
+    body { font-family: Arial, sans-serif; padding: 20px; }
+    li { margin-bottom: 8px; }
+  </style>
 </head>
 <body>
-  <h2>Latest Entries</h2>
-  <ul id="sheetList"></ul>
+  <h2>Latest Google Form Responses</h2>
+  <ul id="responsesList"></ul>
 
   <script>
-    const sheetUrl = "https://docs.google.com/spreadsheets/d/1k7525l8MQdC4O5Uwz4JaO9-X7uORhowgc_pDv3oOeHQ/pub?output=csv";
+    // Replace with your sheet ID
+    const sheetId = "1k7525l8MQdC4O5Uwz4JaO9-X7uORhowgc_pDv3oOeHQ";
+
+    // Google Forms always store responses in "Form Responses 1"
+    const sheetUrl = `https://docs.google.com/spreadsheets/d/${sheetId}/gviz/tq?tqx=out:csv&sheet=Form%20Responses%201`;
+
     const refreshInterval = 10000; // 10 seconds
 
-    function loadSheet() {
+    function loadResponses() {
       fetch(sheetUrl)
         .then(response => response.text())
         .then(csv => {
@@ -21,23 +30,21 @@
             .map(r => r.split(","))
             .reverse(); // newest first
 
-          const list = document.getElementById("sheetList");
+          const list = document.getElementById("responsesList");
           list.innerHTML = ""; // clear old entries
 
-          rows.forEach(row => {
+          // Skip header row (which is now last because of reverse)
+          rows.slice(0, -1).forEach(row => {
             const li = document.createElement("li");
             li.textContent = row.join(" — ");
             list.appendChild(li);
           });
         })
-        .catch(err => console.error("Error loading sheet:", err));
+        .catch(err => console.error("Error loading responses:", err));
     }
 
-    // Load immediately
-    loadSheet();
-
-    // Auto-refresh
-    setInterval(loadSheet, refreshInterval);
+    loadResponses();
+    setInterval(loadResponses, refreshInterval);
   </script>
 </body>
 </html>

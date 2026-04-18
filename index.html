@@ -20,7 +20,7 @@
     <script>
         // Sample JSON data - this would normally be loaded from an external file
         const jsonData = [
-            {"name": "Apple", "creator": "Fruit", "location": "lon"},
+            {"name": "Apple", "creator": "Fruit", "location": "google.com"},
             {"name": "Banana", "creator": "Fruit", "location": "lon"},
             {"name": "Carrot", "creator": "Vegetable", "location": "lon"},
             {"name": "Date", "creator": "Fruit", "location": "lon"},
@@ -39,7 +39,7 @@
             }
             filteredData.forEach(item => {
                 const li = document.createElement('li');
-                li.textContent = `${item.name} (${item.creator}) (${item.location})`;
+                li.textContent = `${item.name} (${item.creator}) <a href="${item.location}"</a>`;
                 resultsList.appendChild(li);
             });
         }

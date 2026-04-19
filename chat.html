@@ -4,6 +4,19 @@
   <title>Dynaland Chat</title>
   <style>
     body { font-family: Arial, sans-serif; padding: 20px; }
+    .leftFrame {
+      float: left;
+      width: 400px;
+      height: 600px;
+      margin-right: 10px; /* space between iframe and chat box */
+    }
+
+/* Clear float after container */
+.container::after {
+  content: "";
+  display: table;
+  clear: both;
+}
     #chatBox { 
       border: 1px solid #ccc; 
       padding: 10px; 
@@ -30,14 +43,19 @@
 <body>
   
   <h2>Chat</h2>
-<iframe src="https://docs.google.com/forms/d/e/1FAIpQLSf2jh7p9NQ4eOf17uhHCkSc6zG5R6YLgkgFCtSvKnFyYLCv3A/viewform?embedded=true" width="400" height="600" frameborder="0" marginheight="0" marginwidth="0">Loading…</iframe>
+  
   <div id="chatBox"></div>
 
+  <div class="container">
+    <iframe src="https://docs.google.com/forms/d/e/1FAIpQLSf2jh7p9NQ4eOf17uhHCkSc6zG5R6YLgkgFCtSvKnFyYLCv3A/viewform?embedded=true" width="400" height="600" frameborder="0" marginheight="0" marginwidth="0">Loading…</iframe>
+    <div id="chatBox">Welcome to the chat!</div>
+  </div>
+  
 <script>
     const sheetId = "1l_bqsNu--SrVtAJfXbrrBH5YHRmub1xTYUlRGuqCu7k";
     const sheetUrl = `https://docs.google.com/spreadsheets/d/${sheetId}/gviz/tq?tqx=out:csv&sheet=Form%20Responses%201`;
     const refreshInterval = 2000; //refresh time
-
+  
     // ---- LOAD MESSAGES FROM GOOGLE SHEET ----
     function loadChat() {
       fetch(sheetUrl)
